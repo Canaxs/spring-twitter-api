@@ -33,7 +33,7 @@ public class Security  extends WebSecurityConfigurerAdapter{
 		
 		http
 			.authorizeRequests()
-				.antMatchers(HttpMethod.PUT, "/api/1.0/users").authenticated()
+				.antMatchers(HttpMethod.GET, "/api/1.0/user").authenticated()
 			.and()
 			.authorizeRequests().anyRequest().permitAll();
 		

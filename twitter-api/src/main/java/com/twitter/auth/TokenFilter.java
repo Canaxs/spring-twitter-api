@@ -24,37 +24,25 @@ public class TokenFilter extends OncePerRequestFilter{
 		AuthService authService;
 		
 		@Autowired
-		UserJpaRepository jpaRepository;
-		
-		@Autowired
 		UserAuthService service;
 	
 		@Override
 		protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 				throws ServletException, IOException {
-			try {
-				String jwtToken = extractJwtFromRequest(request);
-				if(StringUtils.hasText(jwtToken) && authService.validateToken(jwtToken)) {
-					Long id = authService.getUserIdFromJwt(jwtToken);
-					UserDetails user = service.loadUserById(id);
-					if(user != null) {
-						UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-						auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-						SecurityContextHolder.getContext().setAuthentication(auth);
-					}
+				String authorization = request.getHeader("Authorization");
+
+				if(authorization != null) {
+					String token = authorization.substring(7);
+					
+					UserDetails user = authService.getUserDetails(token);
+					UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+					authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+					SecurityContextHolder.getContext().setAuthentication(authentication);
 				}
-			} catch(Exception e) {
-				return;
-			}
+				
 			
 			filterChain.doFilter(request, response);
 			
-		}
-		private String extractJwtFromRequest(HttpServletRequest request) {
-			String bearer = request.getHeader("Authorization");
-			if(StringUtils.hasText(bearer) && bearer.startsWith("Bearer "))
-				return bearer.substring("Bearer".length() + 1);
-			return null;
 		}
 
 }
