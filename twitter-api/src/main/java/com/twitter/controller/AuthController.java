@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,8 +25,11 @@ public class AuthController {
 	private UserAuthRes isLogged(@RequestBody Credentials credentials) {
 		return authService.authenticate(credentials);
 	}
-	@GetMapping
-	private String Log() {
-		return SecurityContextHolder.getContext().getAuthentication().getName();
+	
+	@PostMapping("/api/1.0/logout")
+	String handleLogout(@RequestHeader(name = "Authorization") String authorization) {
+		String token = authorization.substring(7);
+		authService.clearToken(token);
+		return "Logout success";
 	}
 }
