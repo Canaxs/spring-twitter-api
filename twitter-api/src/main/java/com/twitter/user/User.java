@@ -31,6 +31,7 @@ public class User implements UserDetails{
 	
 	@NotNull
 	@Size(min=2,max=255)
+	//@UniqueUsername ToDo
 	private String username;
 	
 	@NotNull

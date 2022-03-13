@@ -28,5 +28,9 @@ public class Friends {
     
     @OneToOne(cascade = CascadeType.ALL)
     User secondUser;
+    
+    private boolean friendAccepted;
+    
+    private long senderUser;
 
 }
