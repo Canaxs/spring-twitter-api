@@ -14,6 +14,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.twitter.annot.UniqueUsername;
+
 import lombok.Data;
 
 @Data
@@ -31,7 +33,7 @@ public class User implements UserDetails{
 	
 	@NotNull
 	@Size(min=2,max=255)
-	//@UniqueUsername ToDo
+	@UniqueUsername 
 	private String username;
 	
 	@NotNull
