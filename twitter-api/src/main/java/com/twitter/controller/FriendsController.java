@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ import com.twitter.user.User;
 import com.twitter.user.UserJpaRepository;
 
 @RestController
-@RequestMapping("/api/1.0/friends/")
+@RequestMapping("/api/1.0/friends")
 public class FriendsController {
 	
 	@Autowired
@@ -39,7 +40,7 @@ public class FriendsController {
 	}
 	
 	@GetMapping("/{username}")
-	private List<User> getUserList(@RequestParam String username) {
+	private List<User> getUserList(@PathVariable String username) {
 		List<User> myFriends = friendsService.getUserList(username);
 		return myFriends;
 	}
