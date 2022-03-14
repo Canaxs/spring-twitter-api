@@ -26,7 +26,7 @@ public class AuthController {
 		return authService.authenticate(credentials);
 	}
 	
-	@PostMapping("/api/1.0/logout")
+	@PostMapping("/logout")
 	String handleLogout(@RequestHeader(name = "Authorization") String authorization) {
 		String token = authorization.substring(7);
 		authService.clearToken(token);
