@@ -15,11 +15,8 @@ import com.twitter.temporary.Credentials;
 public class UserController {
 
 	@GetMapping
-	private Credentials dee() {
-		Credentials creden = new Credentials();
-		creden.setPassword("deneme");
-		creden.setUsername("deneme");
-		return creden;
+	private String dee() {
+		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 	
 }

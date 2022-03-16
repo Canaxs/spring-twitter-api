@@ -22,6 +22,12 @@ public class FriendsService {
 	@Autowired
 	UserJpaRepository userRepository;
 	
+	public FriendsService(FriendsRepository friendsRepository, UserJpaRepository userRepository) {
+		super();
+		this.friendsRepository = friendsRepository;
+		this.userRepository = userRepository;
+	}
+	
 	public void saveFriends(long id2) {
 		
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -97,7 +103,7 @@ public class FriendsService {
 			Friends.add(userRepository.findByid(friend.getSecondUser().getId()));
 		}
 		for(Friends friend:secondFriends) {
-			Friends.add(userRepository.findByid(friend.getSecondUser().getId()));
+			Friends.add(userRepository.findByid(friend.getFirstUser().getId()));
 		}
 		return Friends;
 	}
@@ -112,7 +118,7 @@ public class FriendsService {
 			Friends.add(userRepository.findByid(friend.getSecondUser().getId()));
 		}
 		for(Friends friend:secondFriends) {
-			Friends.add(userRepository.findByid(friend.getSecondUser().getId()));
+			Friends.add(userRepository.findByid(friend.getFirstUser().getId()));
 		}
 		return Friends;
 	}
