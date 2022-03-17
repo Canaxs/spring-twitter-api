@@ -64,6 +64,9 @@ public class LikesService {
 		if((likesJpaRepository.existsByUserIdAndPostId(user.getId(), postid))) {
 			Likes likes = likesJpaRepository.findByUserIdAndPostId(user.getId(), postid);
 			likesJpaRepository.delete(likes);
+			Post post = postJpaRepository.findByid(postid);
+			post.setLike(post.getLike()-1);
+			postJpaRepository.save(post);
 			return likes;
 		}
 		return null;
