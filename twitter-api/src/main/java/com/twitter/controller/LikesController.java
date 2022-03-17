@@ -1,0 +1,43 @@
+package com.twitter.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.twitter.like.Likes;
+import com.twitter.like.LikesJpaRepository;
+import com.twitter.like.LikesService;
+
+@RestController
+@RequestMapping("/api/1.0/likes")
+public class LikesController {
+
+	@Autowired
+	LikesService likesService;
+	
+	@PostMapping("/{postid}")
+	public String likePost(@PathVariable int postid) {
+		likesService.createLikes(postid);
+		return "Liked";
+	}
+	
+	@GetMapping("/{postid}")
+	public boolean existLikePost(@PathVariable int postid) {
+		return likesService.existLikePost(postid);
+	}
+	@DeleteMapping("/{postid}")
+	public Likes deleteLikePost(@PathVariable int postid) {
+		return likesService.deleteLikePost(postid);
+	}
+	@GetMapping("/all/{postid}")
+	public List<Likes> allLikesPost(@PathVariable int postid) {
+		return likesService.allLikesPost(postid);
+	}
+}
+

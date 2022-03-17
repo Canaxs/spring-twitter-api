@@ -53,6 +53,7 @@ public class PostService {
 			post.setText(postİnformation.getText());
 			post.setTitle(postİnformation.getTitle());
 			post.setUser(getUserİnfo());
+			post.setLike(0);
 			postJpaRepository.save(post);
 		}
 		catch(Error e) {
