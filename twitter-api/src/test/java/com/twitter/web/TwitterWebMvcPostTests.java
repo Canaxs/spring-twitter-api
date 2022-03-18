@@ -1,5 +1,7 @@
 package com.twitter.web;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import com.twitter.service.PostService;
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 @ActiveProfiles("dev")
 @AutoConfigureMockMvc
+@Transactional
 public class TwitterWebMvcPostTests {
 	
 	@Autowired

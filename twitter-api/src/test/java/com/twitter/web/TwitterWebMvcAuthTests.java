@@ -2,6 +2,8 @@ package com.twitter.web;
 
 import java.nio.charset.Charset;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import com.twitter.request.Credentials;
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 @ActiveProfiles("dev")
 @AutoConfigureMockMvc
+@Transactional
 public class TwitterWebMvcAuthTests {
 	
 	@Autowired
