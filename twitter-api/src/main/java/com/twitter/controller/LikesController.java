@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.twitter.like.Likes;
-import com.twitter.like.LikesJpaRepository;
-import com.twitter.like.LikesService;
+import com.twitter.model.Likes;
+import com.twitter.repository.LikesJpaRepository;
+import com.twitter.repository.LikesService;
 
 @RestController
 @RequestMapping("/api/1.0/likes")

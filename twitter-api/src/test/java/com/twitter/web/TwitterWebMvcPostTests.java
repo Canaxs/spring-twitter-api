@@ -13,10 +13,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.twitter.auth.AuthService;
-import com.twitter.post.PostService;
-import com.twitter.temporary.Credentials;
-import com.twitter.temporary.UserAuthRes;
+import com.twitter.request.Credentials;
+import com.twitter.request.UserAuthRes;
+import com.twitter.service.AuthService;
+import com.twitter.service.PostService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)

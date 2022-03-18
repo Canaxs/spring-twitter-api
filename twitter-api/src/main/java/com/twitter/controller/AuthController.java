@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.twitter.auth.AuthService;
-import com.twitter.temporary.Credentials;
-import com.twitter.temporary.UserAuthRes;
+import com.twitter.request.Credentials;
+import com.twitter.request.UserAuthRes;
+import com.twitter.service.AuthService;
 
 @RestController
 @RequestMapping("/api/1.0/auth")
