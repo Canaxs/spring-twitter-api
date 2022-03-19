@@ -80,7 +80,7 @@ public class TwitterWebMvcFriendsTests {
 	public void deleteFriend() throws Exception {
 		String format = Auth();
 		long id = 1;
-		mockMvc.perform(MockMvcRequestBuilders.delete("/api/1.0/friends/reject")
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/1.0/friends/decline")
 				.header("Authorization",format)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"id2\":"+id+"}")
