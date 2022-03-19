@@ -15,11 +15,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Likes {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+public class Likes extends BaseEntity{
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="post_id", nullable=false)

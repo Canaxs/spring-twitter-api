@@ -16,11 +16,8 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Friends {
+public class Friends extends BaseEntity{
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
 	
     private Date createdDate;
     

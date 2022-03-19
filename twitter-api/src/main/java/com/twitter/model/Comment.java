@@ -14,11 +14,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Comment {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+public class Comment extends BaseEntity{
 	
 	@ManyToOne
 	@JoinColumn(name="post_id", nullable=false)

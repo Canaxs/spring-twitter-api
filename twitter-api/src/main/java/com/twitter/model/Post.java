@@ -24,11 +24,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="post")
-public class Post {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+public class Post extends BaseEntity{
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="user_id", nullable=false)
