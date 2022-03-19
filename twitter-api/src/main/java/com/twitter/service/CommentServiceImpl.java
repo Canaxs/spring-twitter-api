@@ -1,8 +1,11 @@
 package com.twitter.service;
 
+import java.util.List;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.twitter.exception.AuthException;
 import com.twitter.model.Comment;
 import com.twitter.model.Post;
 import com.twitter.model.User;
@@ -45,6 +48,32 @@ public class CommentServiceImpl implements CommentService{
 			comment2.setText(comment.getText());
 			commentJpaRepository.save(comment2);
 			return comment2;
+		}
+		else {
+			throw new AuthException();
+		}
+	}
+
+	@Override
+	public List<Comment> getAllComments(long postid) {
+		List<Comment> comment = commentJpaRepository.findAllByPostId(postid);
+		return comment;
+	}
+
+	@Override
+	public Comment deleteComment(long commentId) {
+		Comment comment = commentJpaRepository.findByid(commentId);
+		if(comment != null) {
+			try {
+				commentJpaRepository.delete(comment);
+				return comment;
+			}
+			catch(Error e) {
+				
+			}
+		}
+		else {
+			throw new AuthException();
 		}
 		return null;
 	}

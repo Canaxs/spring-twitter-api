@@ -105,10 +105,14 @@ public class FriendsServiceImpl implements FriendsService{
 		List<User> Friends = new ArrayList<>();
 		
 		for(Friends friend:firstFriends) {
+			if(friend.isFriendAccepted()) {
 			Friends.add(userRepository.findByid(friend.getSecondUser().getId()));
+			}
 		}
 		for(Friends friend:secondFriends) {
+			if(friend.isFriendAccepted()) {
 			Friends.add(userRepository.findByid(friend.getFirstUser().getId()));
+			}
 		}
 		return Friends;
 	}
@@ -127,6 +131,23 @@ public class FriendsServiceImpl implements FriendsService{
 			Friends.add(userRepository.findByid(friend.getFirstUser().getId()));
 		}
 		return Friends;
+	}
+
+	@Override
+	public void declineFriend(SendIds id2) {
+		User user = Auth();
+		User user2 = userRepository.findByid(id2.getId2());
+		
+		if(friendsRepository.existsByFirstUserAndSecondUser(user, user2)) {
+			Friends friend = friendsRepository.findByFirstUserAndSecondUser(user, user2);
+			System.out.println("friends: "+friend);
+			friendsRepository.delete(friend);
+		}
+		else if(friendsRepository.existsByFirstUserAndSecondUser(user2, user)) {
+			Friends friend = friendsRepository.findByFirstUserAndSecondUser(user2, user);
+			System.out.println("friends: "+friend);
+			friendsRepository.delete(friend);
+		}
 	}
 
 }

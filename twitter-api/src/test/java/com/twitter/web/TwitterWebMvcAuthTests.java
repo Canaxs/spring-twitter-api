@@ -25,7 +25,6 @@ import com.twitter.request.Credentials;
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 @ActiveProfiles("dev")
 @AutoConfigureMockMvc
-@Transactional
 public class TwitterWebMvcAuthTests {
 	
 	@Autowired

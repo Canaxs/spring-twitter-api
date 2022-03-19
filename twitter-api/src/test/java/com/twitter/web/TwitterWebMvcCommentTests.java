@@ -18,14 +18,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.twitter.request.Credentials;
 import com.twitter.request.UserAuthRes;
 import com.twitter.service.AuthService;
-import com.twitter.service.PostService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 @ActiveProfiles("dev")
 @AutoConfigureMockMvc
-public class TwitterWebMvcPostTests {
-	
+public class TwitterWebMvcCommentTests {
+
 	@Autowired
 	private MockMvc mockMvc;
 	
@@ -35,51 +34,41 @@ public class TwitterWebMvcPostTests {
 	public String Auth() {
 		Credentials credentials = new Credentials();
 		credentials.setPassword("root");
-		credentials.setUsername("users");
+		credentials.setUsername("deneme");
 		UserAuthRes authRes = authService.authenticate(credentials);
 		return authRes.getToken();
 	}
 	
 	@Test
-	public void getUserPosts() throws Exception {
+	public void createComment() throws Exception {
 		String format = Auth();
-		String username = "user";
-		mockMvc.perform(MockMvcRequestBuilders.get("/api/1.0/"+username).header("Authorization",format))
-			.andExpect(MockMvcResultMatchers.status().isOk());
-	}
-	
-	@Test
-	public void getAuthPost() throws Exception {
-		String format = Auth();
-		mockMvc.perform(MockMvcRequestBuilders.get("/api/1.0/post").header("Authorization", format))
-		.andExpect(MockMvcResultMatchers.status().isOk());
-	}
-	
-	@Test
-	public void createPost() throws Exception {
-		String format = Auth();
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/1.0/post")
+		System.out.println("token: "+format);
+		long postId = 2;
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/1.0/comment/"+postId)
 				.header("Authorization", format)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\"title\": \"deneme\",\"text\": \"deneme\"}")
+				.content("{\"text\":\"aaa\"}")
 				)
 		.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 	
 	@Test
-	public void deletePost() throws Exception {
-		String format =  Auth();
-		long id = 4;
-		mockMvc.perform(MockMvcRequestBuilders.delete("/api/1.0/post/"+id).header("Authorization", format))
+	public void deleteComment() throws Exception {
+		String format = Auth();
+		long postId = 2;
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/1.0/comment/"+postId)
+				.header("Authorization", format)
+				)
 		.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 	
 	@Test
-	public void getFriendsPost() throws Exception{
+	public void getAllComment() throws Exception {
 		String format = Auth();
-		mockMvc.perform(MockMvcRequestBuilders.get("/api/1.0/post/friends").header("Authorization", format))
+		long postId = 2;
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/1.0/comment/"+postId)
+				.header("Authorization", format)
+				)
 		.andExpect(MockMvcResultMatchers.status().isOk());
 	}
-	
-
 }

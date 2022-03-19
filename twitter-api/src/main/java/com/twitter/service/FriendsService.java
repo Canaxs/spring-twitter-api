@@ -12,5 +12,6 @@ public interface FriendsService {
 	void acceptFriends(SendIds id);
 	List<User> getFriends();
 	List<User> getUserList(String username);
+	void declineFriend(SendIds id2);
 	
 }

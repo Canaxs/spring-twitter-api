@@ -23,7 +23,6 @@ import com.twitter.service.AuthService;
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 @ActiveProfiles("dev")
 @AutoConfigureMockMvc
-@Transactional
 public class TwitterWebMvcLikesTests {
 	
 	@Autowired

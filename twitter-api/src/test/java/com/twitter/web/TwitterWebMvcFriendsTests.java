@@ -1,7 +1,5 @@
 package com.twitter.web;
 
-import javax.transaction.Transactional;
-
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,6 @@ import com.twitter.service.AuthService;
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 @ActiveProfiles("dev")
 @AutoConfigureMockMvc
-@Transactional
 public class TwitterWebMvcFriendsTests {
 
 	@Autowired
@@ -31,7 +28,7 @@ public class TwitterWebMvcFriendsTests {
 	
 	@Autowired
 	private AuthService authService;
-	
+
 	public String Auth() {
 		Credentials credentials = new Credentials();
 		credentials.setPassword("root");
@@ -51,7 +48,6 @@ public class TwitterWebMvcFriendsTests {
 				)
 		.andExpect(MockMvcResultMatchers.status().isOk());
 	}
-	
 	@Test
 	public void getConfigUsers() throws Exception {
 		String format = Auth();
@@ -73,6 +69,18 @@ public class TwitterWebMvcFriendsTests {
 		long id = 1;
 		String format = Auth();
 		mockMvc.perform(MockMvcRequestBuilders.post("/api/1.0/friends/accept")
+				.header("Authorization",format)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"id2\":"+id+"}")
+				)
+		.andExpect(MockMvcResultMatchers.status().isOk());
+	}
+	
+	@Test
+	public void deleteFriend() throws Exception {
+		String format = Auth();
+		long id = 1;
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/1.0/friends/reject")
 				.header("Authorization",format)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"id2\":"+id+"}")

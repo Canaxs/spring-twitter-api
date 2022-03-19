@@ -1,11 +1,16 @@
 package com.twitter.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -71,7 +76,7 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public List<Post> getFriendsPost() {
+	public Page<Post> getFriendsPost(Pageable page) throws IOException{
 		List<User> userList = friendsService.getFriends();
 		List<Post> posts = new ArrayList();
 		for(int i = 0;i<userList.size();i++) {
@@ -85,7 +90,10 @@ public class PostServiceImpl implements PostService{
 		}
 		posts.sort(Comparator.comparing(Post::getId));
 		Collections.reverse(posts);
-		return posts;
+		final int start = (int)page.getOffset();
+		final int end = Math.min((start + page.getPageSize()), posts.size());
+		Page<Post> pages = new PageImpl<Post>(posts.subList(start, end), page, posts.size());
+		return pages;
 	}
 
 	@Override
