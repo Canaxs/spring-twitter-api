@@ -34,7 +34,7 @@ public class TwitterWebMvcCommentTests {
 	public String Auth() {
 		Credentials credentials = new Credentials();
 		credentials.setPassword("root");
-		credentials.setUsername("deneme");
+		credentials.setUsername("user");
 		UserAuthRes authRes = authService.authenticate(credentials);
 		return authRes.getToken();
 	}
