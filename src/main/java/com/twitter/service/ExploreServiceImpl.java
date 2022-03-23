@@ -57,6 +57,16 @@ public class ExploreServiceImpl implements ExploreService{
 		
 		return maps;
 	}
+
+	@Override
+	public List<Post> findAllhashTagNamePosts(String hashTagName) {
+		List<HashTags> posts = hashTagsRepository.findAllByHashTag(hashTagName);
+		List<Post> post = new ArrayList<Post>();
+		for(HashTags s : posts) {
+			post.add(s.getPost());
+		}
+		return post;
+	}
 	
 	
 
