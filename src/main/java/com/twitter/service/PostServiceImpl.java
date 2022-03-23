@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,8 +16,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.twitter.exception.AuthException;
+import com.twitter.model.HashTags;
 import com.twitter.model.Post;
 import com.twitter.model.User;
+import com.twitter.repository.HashTagsRepository;
 import com.twitter.repository.PostJpaRepository;
 import com.twitter.repository.UserJpaRepository;
 import com.twitter.request.Postİnformation;
@@ -30,14 +33,16 @@ public class PostServiceImpl implements PostService{
 	
 	PostJpaRepository postJpaRepository;
 	
+	HashTagsRepository hashTagsRepository;
 
 
 	public PostServiceImpl(UserJpaRepository userJpaRepository, FriendsService friendsService,
-			PostJpaRepository postJpaRepository) {
+			PostJpaRepository postJpaRepository,HashTagsRepository hashTagsRepository) {
 		super();
 		this.userJpaRepository = userJpaRepository;
 		this.friendsService = friendsService;
 		this.postJpaRepository = postJpaRepository;
+		this.hashTagsRepository = hashTagsRepository;
 	}
 
 	@Override
@@ -56,6 +61,7 @@ public class PostServiceImpl implements PostService{
 	@Override
 	public Post createPost(Postİnformation postİnformation) {
 		Post post = new Post();
+		
 		try {
 			post.setCreateDate(new Date());
 			post.setText(postİnformation.getText());
@@ -63,6 +69,21 @@ public class PostServiceImpl implements PostService{
 			post.setUser(getUserİnfo());
 			post.setLike(0);
 			postJpaRepository.save(post);
+			String[] words = postİnformation.getText().split("#");
+			List<String> hashTag = new ArrayList<String>();
+			boolean firstIndex = true;
+			for(String word : words) {
+				if(!firstIndex) {
+					String[] firstWord = word.split("\\W+");
+					hashTag.add(firstWord[0]);
+					HashTags hashTags = new HashTags();
+					hashTags.setHashTag(firstWord[0]);
+					hashTags.setPost(post);
+					hashTagsRepository.save(hashTags);
+					
+				}
+				firstIndex = false;
+			}
 		}
 		catch(Error e) {
 			

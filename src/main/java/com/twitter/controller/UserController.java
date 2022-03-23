@@ -2,6 +2,7 @@ package com.twitter.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +24,9 @@ public class UserController {
 	UserService userService;
 
 	@GetMapping
-	private String securityName() {
-		return SecurityContextHolder.getContext().getAuthentication().getName();
+	private ResponseEntity<String> securityName() {
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		return ResponseEntity.ok(name);
 	}
 	
 	@PostMapping
