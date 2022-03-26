@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.twitter.converter.CommentConverter;
 import com.twitter.exception.AuthException;
 import com.twitter.model.Comment;
 import com.twitter.model.Post;
@@ -22,12 +23,15 @@ public class CommentServiceImpl implements CommentService{
 	UserJpaRepository userJpaRepository;
 	
 	PostJpaRepository postJpaRepository;
+	
+	CommentConverter commentConverter;
 
 	public CommentServiceImpl(CommentJpaRepository commentJpaRepository, UserJpaRepository userJpaRepository,
-			PostJpaRepository postJpaRepository) {
+			PostJpaRepository postJpaRepository,CommentConverter commentConverter) {
 		super();
 		this.commentJpaRepository = commentJpaRepository;
 		this.userJpaRepository = userJpaRepository;
+		this.commentConverter = commentConverter;
 		this.postJpaRepository = postJpaRepository;
 	}
 
@@ -42,10 +46,9 @@ public class CommentServiceImpl implements CommentService{
 		User user = Auth();
 		Post post = postJpaRepository.findByid(postid);
 		if(post != null) {
-			Comment comment2 = new Comment();
+			Comment comment2 =commentConverter.getCommentConvert(comment);
 			comment2.setPost(post);
 			comment2.setUser(user);
-			comment2.setText(comment.getText());
 			commentJpaRepository.save(comment2);
 			return comment2;
 		}

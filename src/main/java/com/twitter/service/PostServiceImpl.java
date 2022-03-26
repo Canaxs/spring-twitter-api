@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.twitter.converter.PostConverter;
 import com.twitter.exception.AuthException;
 import com.twitter.model.HashTags;
 import com.twitter.model.Post;
@@ -34,14 +35,17 @@ public class PostServiceImpl implements PostService{
 	PostJpaRepository postJpaRepository;
 	
 	HashTagsRepository hashTagsRepository;
+	
+	PostConverter postConverter;
 
 
 	public PostServiceImpl(UserJpaRepository userJpaRepository, FriendsService friendsService,
-			PostJpaRepository postJpaRepository,HashTagsRepository hashTagsRepository) {
+			PostJpaRepository postJpaRepository,HashTagsRepository hashTagsRepository,PostConverter postConverter) {
 		super();
 		this.userJpaRepository = userJpaRepository;
 		this.friendsService = friendsService;
 		this.postJpaRepository = postJpaRepository;
+		this.postConverter = postConverter;
 		this.hashTagsRepository = hashTagsRepository;
 	}
 
@@ -60,12 +64,10 @@ public class PostServiceImpl implements PostService{
 
 	@Override
 	public Post createPost(Postİnformation postİnformation) {
-		Post post = new Post();
+		Post post = postConverter.getPosts(postİnformation);
 		
 		try {
 			post.setCreateDate(new Date());
-			post.setText(postİnformation.getText());
-			post.setTitle(postİnformation.getTitle());
 			post.setUser(getUserİnfo());
 			post.setLike(0);
 			postJpaRepository.save(post);
