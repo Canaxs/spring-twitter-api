@@ -2,8 +2,8 @@ package com.twitter.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.twitter.request.Credentials;
-import com.twitter.request.UserAuthRes;
+import com.twitter.dto.Credentials;
+import com.twitter.dto.UserAuthRes;
 
 public interface AuthService {
 

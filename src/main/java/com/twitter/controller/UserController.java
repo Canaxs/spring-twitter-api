@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.twitter.dto.ImageRequest;
+import com.twitter.dto.PasswordRequest;
+import com.twitter.dto.UserRequest;
 import com.twitter.model.User;
-import com.twitter.request.ImageRequest;
-import com.twitter.request.PasswordRequest;
-import com.twitter.request.UserRequest;
 import com.twitter.service.UserService;
 
 @RestController

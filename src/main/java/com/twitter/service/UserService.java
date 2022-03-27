@@ -2,10 +2,10 @@ package com.twitter.service;
 
 import javax.transaction.Transactional;
 
+import com.twitter.dto.ImageRequest;
+import com.twitter.dto.PasswordRequest;
+import com.twitter.dto.UserRequest;
 import com.twitter.model.User;
-import com.twitter.request.ImageRequest;
-import com.twitter.request.PasswordRequest;
-import com.twitter.request.UserRequest;
 
 public interface UserService {
 

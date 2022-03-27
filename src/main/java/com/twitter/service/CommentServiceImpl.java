@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.twitter.converter.CommentConverter;
+import com.twitter.dto.CommentRequest;
 import com.twitter.exception.AuthException;
 import com.twitter.model.Comment;
 import com.twitter.model.Post;
@@ -13,7 +14,6 @@ import com.twitter.model.User;
 import com.twitter.repository.CommentJpaRepository;
 import com.twitter.repository.PostJpaRepository;
 import com.twitter.repository.UserJpaRepository;
-import com.twitter.request.CommentRequest;
 
 @Service
 public class CommentServiceImpl implements CommentService{
@@ -44,7 +44,7 @@ public class CommentServiceImpl implements CommentService{
 	@Override
 	public Comment createComment(CommentRequest comment, long postid) {
 		User user = Auth();
-		Post post = postJpaRepository.findByid(postid);
+		Post post = postJpaRepository.getById(postid);
 		if(post != null) {
 			Comment comment2 =commentConverter.getCommentConvert(comment);
 			comment2.setPost(post);
@@ -65,7 +65,7 @@ public class CommentServiceImpl implements CommentService{
 
 	@Override
 	public Comment deleteComment(long commentId) {
-		Comment comment = commentJpaRepository.findByid(commentId);
+		Comment comment = commentJpaRepository.getById(commentId);
 		if(comment != null) {
 			try {
 				commentJpaRepository.delete(comment);

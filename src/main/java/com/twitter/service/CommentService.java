@@ -2,9 +2,9 @@ package com.twitter.service;
 
 import java.util.List;
 
+import com.twitter.dto.CommentRequest;
 import com.twitter.model.Comment;
 import com.twitter.model.User;
-import com.twitter.request.CommentRequest;
 
 public interface CommentService {
 	

@@ -5,12 +5,12 @@ import javax.transaction.Transactional;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.twitter.dto.ImageRequest;
+import com.twitter.dto.PasswordRequest;
+import com.twitter.dto.UserRequest;
 import com.twitter.exception.AuthException;
 import com.twitter.model.User;
 import com.twitter.repository.UserJpaRepository;
-import com.twitter.request.ImageRequest;
-import com.twitter.request.PasswordRequest;
-import com.twitter.request.UserRequest;
 
 @Service
 public class UserServiceImpl implements UserService{

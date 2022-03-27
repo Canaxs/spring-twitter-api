@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.twitter.dto.Postİnformation;
 import com.twitter.model.Post;
-import com.twitter.request.Postİnformation;
 import com.twitter.service.PostService;
 
 @RestController

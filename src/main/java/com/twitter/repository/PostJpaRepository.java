@@ -11,7 +11,5 @@ import com.twitter.model.User;
 public interface PostJpaRepository extends JpaRepository<Post, Long>{
 	
 	List<Post> findByUser(User user);
-	
-	Post findByid(long id);
 
 }

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.twitter.dto.HashTagRequest;
 import com.twitter.model.Post;
-import com.twitter.request.HashTagRequest;
 import com.twitter.service.ExploreService;
 
 @RestController

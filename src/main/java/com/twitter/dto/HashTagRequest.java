@@ -1,4 +1,4 @@
-package com.twitter.request;
+package com.twitter.dto;
 
 import java.util.List;
 

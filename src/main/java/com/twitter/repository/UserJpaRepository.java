@@ -8,6 +8,4 @@ import com.twitter.model.User;
 public interface UserJpaRepository extends JpaRepository<User,Long>{
 
 	User findByUsername(String username);
-	
-	User findByid(Long id);
 }

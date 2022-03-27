@@ -2,8 +2,8 @@ package com.twitter.service;
 
 import java.util.List;
 
+import com.twitter.dto.SendIds;
 import com.twitter.model.User;
-import com.twitter.request.SendIds;
 
 public interface FriendsService {
 

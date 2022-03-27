@@ -8,13 +8,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.twitter.dto.HashTagRequest;
 import com.twitter.model.HashTags;
 import com.twitter.model.Post;
 import com.twitter.repository.HashTagsRepository;
 import com.twitter.repository.PostJpaRepository;
-import com.twitter.request.HashTagRequest;
+import com.twitter.specification.HashTagsSpecification;
 
 @Service
 public class ExploreServiceImpl implements ExploreService{
@@ -60,7 +62,8 @@ public class ExploreServiceImpl implements ExploreService{
 
 	@Override
 	public List<Post> findAllhashTagNamePosts(String hashTagName) {
-		List<HashTags> posts = hashTagsRepository.findAllByHashTag(hashTagName);
+		Specification<HashTags> hashtag = Specification.where(HashTagsSpecification.findAllByHashTag(hashTagName));
+		List<HashTags> posts = hashTagsRepository.findAll(hashtag);
 		List<Post> post = new ArrayList<Post>();
 		for(HashTags s : posts) {
 			post.add(s.getPost());

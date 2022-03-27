@@ -6,14 +6,14 @@ import org.hibernate.proxy.HibernateProxy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.twitter.dto.Credentials;
+import com.twitter.dto.UserAuthRes;
+import com.twitter.dto.UserVM;
 import com.twitter.exception.AuthException;
 import com.twitter.model.Token;
 import com.twitter.model.User;
 import com.twitter.repository.TokenRepository;
 import com.twitter.repository.UserJpaRepository;
-import com.twitter.request.Credentials;
-import com.twitter.request.UserAuthRes;
-import com.twitter.request.UserVM;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;

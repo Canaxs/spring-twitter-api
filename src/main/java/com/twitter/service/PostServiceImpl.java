@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.twitter.converter.PostConverter;
+import com.twitter.dto.Postİnformation;
 import com.twitter.exception.AuthException;
 import com.twitter.model.HashTags;
 import com.twitter.model.Post;
@@ -23,7 +24,6 @@ import com.twitter.model.User;
 import com.twitter.repository.HashTagsRepository;
 import com.twitter.repository.PostJpaRepository;
 import com.twitter.repository.UserJpaRepository;
-import com.twitter.request.Postİnformation;
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -64,12 +64,9 @@ public class PostServiceImpl implements PostService{
 
 	@Override
 	public Post createPost(Postİnformation postİnformation) {
-		Post post = postConverter.getPosts(postİnformation);
 		
 		try {
-			post.setCreateDate(new Date());
-			post.setUser(getUserİnfo());
-			post.setLike(0);
+			Post post = postConverter.getPosts(postİnformation);
 			postJpaRepository.save(post);
 			String[] words = postİnformation.getText().split("#");
 			List<String> hashTag = new ArrayList<String>();
@@ -122,7 +119,7 @@ public class PostServiceImpl implements PostService{
 	@Override
 	public Post deletePost(long id) {
 		User user = getUserİnfo();
-		Post post = postJpaRepository.findByid(id);
+		Post post = postJpaRepository.getById(id);
 		if(post.getUser() == user) {
 			postJpaRepository.delete(post);
 		}

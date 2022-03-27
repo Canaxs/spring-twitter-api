@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.twitter.dto.SendIds;
 import com.twitter.model.User;
 import com.twitter.repository.UserJpaRepository;
-import com.twitter.request.SendIds;
 import com.twitter.service.FriendsService;
 
 @RestController

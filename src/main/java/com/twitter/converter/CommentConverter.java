@@ -2,8 +2,8 @@ package com.twitter.converter;
 
 import org.springframework.stereotype.Component;
 
+import com.twitter.dto.CommentRequest;
 import com.twitter.model.Comment;
-import com.twitter.request.CommentRequest;
 
 @Component
 public class CommentConverter {

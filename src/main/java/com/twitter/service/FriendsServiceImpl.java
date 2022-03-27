@@ -7,12 +7,12 @@ import java.util.List;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.twitter.dto.SendIds;
 import com.twitter.exception.AuthException;
 import com.twitter.model.Friends;
 import com.twitter.model.User;
 import com.twitter.repository.FriendsRepository;
 import com.twitter.repository.UserJpaRepository;
-import com.twitter.request.SendIds;
 
 @Service
 public class FriendsServiceImpl implements FriendsService{
@@ -41,8 +41,8 @@ public class FriendsServiceImpl implements FriendsService{
 			
 		if(id1 != id2) {
 			Friends friends = new Friends();
-			User user1 = userRepository.findByid(id1);
-			User user2 = userRepository.findByid(id2);
+			User user1 = userRepository.getById(id1);
+			User user2 = userRepository.getById(id2);
 			User first = user1;
 			User second = user2;
 			if(user1.getId() > user2.getId()) {
@@ -72,7 +72,7 @@ public class FriendsServiceImpl implements FriendsService{
 	public void acceptFriends(SendIds id) {
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
 		User user1 = userRepository.findByUsername(name);
-		User user2 = userRepository.findByid(id.getId2());
+		User user2 = userRepository.getById(id.getId2());
 		User first = user1;
 		User second = user2;
 		
@@ -106,12 +106,12 @@ public class FriendsServiceImpl implements FriendsService{
 		
 		for(Friends friend:firstFriends) {
 			if(friend.isFriendAccepted()) {
-			Friends.add(userRepository.findByid(friend.getSecondUser().getId()));
+			Friends.add(userRepository.getById(friend.getSecondUser().getId()));
 			}
 		}
 		for(Friends friend:secondFriends) {
 			if(friend.isFriendAccepted()) {
-			Friends.add(userRepository.findByid(friend.getFirstUser().getId()));
+			Friends.add(userRepository.getById(friend.getFirstUser().getId()));
 			}
 		}
 		return Friends;
@@ -125,10 +125,10 @@ public class FriendsServiceImpl implements FriendsService{
 		List<User> Friends = new ArrayList<>();
 		
 		for(Friends friend:firstFriends) {
-			Friends.add(userRepository.findByid(friend.getSecondUser().getId()));
+			Friends.add(userRepository.getById(friend.getSecondUser().getId()));
 		}
 		for(Friends friend:secondFriends) {
-			Friends.add(userRepository.findByid(friend.getFirstUser().getId()));
+			Friends.add(userRepository.getById(friend.getFirstUser().getId()));
 		}
 		return Friends;
 	}
@@ -136,7 +136,7 @@ public class FriendsServiceImpl implements FriendsService{
 	@Override
 	public void declineFriend(SendIds id2) {
 		User user = Auth();
-		User user2 = userRepository.findByid(id2.getId2());
+		User user2 = userRepository.getById(id2.getId2());
 		
 		if(friendsRepository.existsByFirstUserAndSecondUser(user, user2)) {
 			Friends friend = friendsRepository.findByFirstUserAndSecondUser(user, user2);

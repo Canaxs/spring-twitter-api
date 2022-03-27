@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.twitter.dto.CommentRequest;
 import com.twitter.model.Comment;
 import com.twitter.repository.CommentJpaRepository;
-import com.twitter.request.CommentRequest;
 import com.twitter.service.CommentService;
 
 @RestController

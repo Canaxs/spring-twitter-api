@@ -13,8 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.twitter.request.Credentials;
-import com.twitter.request.UserAuthRes;
+import com.twitter.dto.Credentials;
+import com.twitter.dto.UserAuthRes;
 import com.twitter.service.AuthService;
 
 @RunWith(SpringRunner.class)

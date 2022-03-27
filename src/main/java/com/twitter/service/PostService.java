@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.twitter.dto.Postİnformation;
 import com.twitter.model.Post;
 import com.twitter.model.User;
-import com.twitter.request.Postİnformation;
 
 public interface PostService {
 	

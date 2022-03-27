@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.twitter.model.Likes;
 import com.twitter.repository.LikesJpaRepository;
-import com.twitter.repository.LikesService;
+import com.twitter.service.LikesService;
 
 @RestController
 @RequestMapping("/api/1.0/likes")
