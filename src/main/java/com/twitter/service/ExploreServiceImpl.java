@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.twitter.dto.HashTagRequest;
+import static com.twitter.specification.HashTagsSpecification.*;
 import com.twitter.model.HashTags;
 import com.twitter.model.Post;
 import com.twitter.repository.HashTagsRepository;
@@ -62,8 +63,7 @@ public class ExploreServiceImpl implements ExploreService{
 
 	@Override
 	public List<Post> findAllhashTagNamePosts(String hashTagName) {
-		Specification<HashTags> hashtag = Specification.where(HashTagsSpecification.findAllByHashTag(hashTagName));
-		List<HashTags> posts = hashTagsRepository.findAll(hashtag);
+		List<HashTags> posts = hashTagsRepository.findAll(findAllByHashTag(hashTagName));
 		List<Post> post = new ArrayList<Post>();
 		for(HashTags s : posts) {
 			post.add(s.getPost());

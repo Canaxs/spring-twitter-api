@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import static com.twitter.specification.FriendsSpecification.*;
 import com.twitter.dto.SendIds;
 import com.twitter.exception.AuthException;
 import com.twitter.model.Friends;
 import com.twitter.model.User;
 import com.twitter.repository.FriendsRepository;
 import com.twitter.repository.UserJpaRepository;
+import com.twitter.specification.FriendsSpecification;
 
 @Service
 public class FriendsServiceImpl implements FriendsService{
@@ -100,8 +103,8 @@ public class FriendsServiceImpl implements FriendsService{
 	@Override
 	public List<User> getFriends() {
 		User user = Auth();
-		List<Friends> firstFriends = friendsRepository.findByFirstUser(user);
-		List<Friends> secondFriends = friendsRepository.findBySecondUser(user);
+		List<Friends> firstFriends = friendsRepository.findAll(findByFirstUser(user));
+		List<Friends> secondFriends = friendsRepository.findAll(findBySecondUser(user));
 		List<User> Friends = new ArrayList<>();
 		
 		for(Friends friend:firstFriends) {
@@ -120,8 +123,8 @@ public class FriendsServiceImpl implements FriendsService{
 	@Override
 	public List<User> getUserList(String username) {
 		User user = Auth();
-		List<Friends> firstFriends = friendsRepository.findByFirstUser(user);
-		List<Friends> secondFriends = friendsRepository.findBySecondUser(user);
+		List<Friends> firstFriends = friendsRepository.findAll(findByFirstUser(user));
+		List<Friends> secondFriends = friendsRepository.findAll(findBySecondUser(user));
 		List<User> Friends = new ArrayList<>();
 		
 		for(Friends friend:firstFriends) {
