@@ -11,6 +11,7 @@ import com.twitter.model.User;
 import com.twitter.repository.LikesJpaRepository;
 import com.twitter.repository.PostJpaRepository;
 import com.twitter.repository.UserJpaRepository;
+import com.twitter.utils.Userİnfo;
 
 @Service
 public class LikesServiceImpl implements LikesService{
@@ -20,24 +21,21 @@ public class LikesServiceImpl implements LikesService{
 	UserJpaRepository userJpaRepository;
 	
 	PostJpaRepository postJpaRepository;
+	
+	Userİnfo userİnfo;
 
 	public LikesServiceImpl(LikesJpaRepository likesJpaRepository, UserJpaRepository userJpaRepository,
-			PostJpaRepository postJpaRepository) {
+			PostJpaRepository postJpaRepository,Userİnfo userİnfo) {
 		super();
+		this.userİnfo = userİnfo;
 		this.likesJpaRepository = likesJpaRepository;
 		this.userJpaRepository = userJpaRepository;
 		this.postJpaRepository = postJpaRepository;
 	}
 
 	@Override
-	public User Auth() {
-		String name = SecurityContextHolder.getContext().getAuthentication().getName();
-		return userJpaRepository.findByUsername(name);
-	}
-
-	@Override
 	public void createLikes(int postid) {
-		User user = Auth();
+		User user = userİnfo.Auth();
 		if(!(likesJpaRepository.existsByUserIdAndPostId(user.getId(), postid))) {
 			Post post = postJpaRepository.getById((long) postid);
 			try {
@@ -56,13 +54,13 @@ public class LikesServiceImpl implements LikesService{
 
 	@Override
 	public boolean existLikePost(int postid) {
-		User user = Auth();
+		User user = userİnfo.Auth();
 		return likesJpaRepository.existsByUserIdAndPostId(user.getId(), postid);
 	}
 
 	@Override
 	public Likes deleteLikePost(int postid) {
-		User user = Auth();
+		User user = userİnfo.Auth();
 		if((likesJpaRepository.existsByUserIdAndPostId(user.getId(), postid))) {
 			Likes likes = likesJpaRepository.findByUserIdAndPostId(user.getId(), postid);
 			likesJpaRepository.delete(likes);

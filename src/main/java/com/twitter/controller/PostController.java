@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +26,7 @@ public class PostController {
 	@Autowired
 	PostService postService;
 	
+	@Cacheable("getUserPosts")
 	@GetMapping("/{username}")
 	public List<Post> getUserPosts(@PathVariable String username) {
 		return postService.getUserPosts(username);

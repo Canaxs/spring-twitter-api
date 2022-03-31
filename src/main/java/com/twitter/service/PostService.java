@@ -12,7 +12,6 @@ import com.twitter.model.User;
 
 public interface PostService {
 	
-	User getUserİnfo();
 	List<Post> getUserPosts(String username);
 	Post createPost(Postİnformation postİnformation);
 	List<Post> getAuthPosts();

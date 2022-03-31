@@ -14,6 +14,7 @@ import com.twitter.model.User;
 import com.twitter.repository.CommentJpaRepository;
 import com.twitter.repository.PostJpaRepository;
 import com.twitter.repository.UserJpaRepository;
+import com.twitter.utils.Userİnfo;
 
 @Service
 public class CommentServiceImpl implements CommentService{
@@ -25,25 +26,22 @@ public class CommentServiceImpl implements CommentService{
 	PostJpaRepository postJpaRepository;
 	
 	CommentConverter commentConverter;
+	
+	Userİnfo userİnfo;
 
 	public CommentServiceImpl(CommentJpaRepository commentJpaRepository, UserJpaRepository userJpaRepository,
-			PostJpaRepository postJpaRepository,CommentConverter commentConverter) {
+			PostJpaRepository postJpaRepository,CommentConverter commentConverter,Userİnfo userİnfo) {
 		super();
 		this.commentJpaRepository = commentJpaRepository;
 		this.userJpaRepository = userJpaRepository;
 		this.commentConverter = commentConverter;
 		this.postJpaRepository = postJpaRepository;
-	}
-
-	@Override
-	public User Auth() {
-		String name = SecurityContextHolder.getContext().getAuthentication().getName();
-		return userJpaRepository.findByUsername(name);
+		this.userİnfo = userİnfo;
 	}
 
 	@Override
 	public Comment createComment(CommentRequest comment, long postid) {
-		User user = Auth();
+		User user = userİnfo.Auth();
 		Post post = postJpaRepository.getById(postid);
 		if(post != null) {
 			Comment comment2 =commentConverter.getCommentConvert(comment);

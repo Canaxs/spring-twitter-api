@@ -7,7 +7,6 @@ import com.twitter.model.User;
 
 public interface LikesService {
 
-	User Auth();
 	void createLikes(int postid);
 	boolean existLikePost(int postid);
 	Likes deleteLikePost(int postid);

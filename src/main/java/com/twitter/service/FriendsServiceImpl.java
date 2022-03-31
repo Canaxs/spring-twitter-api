@@ -16,6 +16,7 @@ import com.twitter.model.User;
 import com.twitter.repository.FriendsRepository;
 import com.twitter.repository.UserJpaRepository;
 import com.twitter.specification.FriendsSpecification;
+import com.twitter.utils.Userİnfo;
 
 @Service
 public class FriendsServiceImpl implements FriendsService{
@@ -24,22 +25,19 @@ public class FriendsServiceImpl implements FriendsService{
 	
 	UserJpaRepository userRepository;
 	
+	Userİnfo userİnfo;
+	
 
-	public FriendsServiceImpl(FriendsRepository friendsRepository, UserJpaRepository userRepository) {
+	public FriendsServiceImpl(FriendsRepository friendsRepository, UserJpaRepository userRepository,Userİnfo userİnfo) {
 		super();
 		this.friendsRepository = friendsRepository;
 		this.userRepository = userRepository;
+		this.userİnfo = userİnfo;
 	}
-
-	@Override
-	public User Auth() {
-		String name = SecurityContextHolder.getContext().getAuthentication().getName();
-		User user = userRepository.findByUsername(name);
-		return user;
-	}
+	
 	@Override
 	public void saveFriends(long id2) {
-		User user = Auth();
+		User user = userİnfo.Auth();
 		long id1 = user.getId();
 			
 		if(id1 != id2) {
@@ -102,7 +100,7 @@ public class FriendsServiceImpl implements FriendsService{
 
 	@Override
 	public List<User> getFriends() {
-		User user = Auth();
+		User user =  userİnfo.Auth();
 		List<Friends> firstFriends = friendsRepository.findAll(findByFirstUser(user));
 		List<Friends> secondFriends = friendsRepository.findAll(findBySecondUser(user));
 		List<User> Friends = new ArrayList<>();
@@ -122,7 +120,7 @@ public class FriendsServiceImpl implements FriendsService{
 
 	@Override
 	public List<User> getUserList(String username) {
-		User user = Auth();
+		User user =  userİnfo.Auth();
 		List<Friends> firstFriends = friendsRepository.findAll(findByFirstUser(user));
 		List<Friends> secondFriends = friendsRepository.findAll(findBySecondUser(user));
 		List<User> Friends = new ArrayList<>();
@@ -138,7 +136,7 @@ public class FriendsServiceImpl implements FriendsService{
 
 	@Override
 	public void declineFriend(SendIds id2) {
-		User user = Auth();
+		User user =  userİnfo.Auth();
 		User user2 = userRepository.getById(id2.getId2());
 		
 		if(friendsRepository.existsByFirstUserAndSecondUser(user, user2)) {
@@ -151,6 +149,26 @@ public class FriendsServiceImpl implements FriendsService{
 			System.out.println("friends: "+friend);
 			friendsRepository.delete(friend);
 		}
+	}
+
+	@Override
+	public List<Long> getLongFriends() {
+		User user = userİnfo.Auth();
+		List<Friends> firstFriends = friendsRepository.findAll(findByFirstUser(user));
+		List<Friends> secondFriends = friendsRepository.findAll(findBySecondUser(user));
+		List<Long> Friends = new ArrayList<>();
+		
+		for(Friends friend:firstFriends) {
+			if(friend.isFriendAccepted()) {
+			Friends.add(friend.getSecondUser().getId());
+			}
+		}
+		for(Friends friend:secondFriends) {
+			if(friend.isFriendAccepted()) {
+			Friends.add(friend.getFirstUser().getId());
+			}
+		}
+		return Friends;
 	}
 
 }

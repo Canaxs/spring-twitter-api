@@ -8,7 +8,6 @@ import com.twitter.model.User;
 
 public interface CommentService {
 	
-	User Auth();
 	Comment createComment(CommentRequest comment,long postid);
 	List<Comment> getAllComments(long postid);
 	Comment deleteComment(long commentId);

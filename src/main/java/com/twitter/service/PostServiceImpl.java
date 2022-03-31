@@ -15,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import static com.twitter.specification.PostSpecification.*;
+
 import com.twitter.converter.PostConverter;
 import com.twitter.dto.Postİnformation;
 import com.twitter.exception.AuthException;
@@ -24,6 +26,7 @@ import com.twitter.model.User;
 import com.twitter.repository.HashTagsRepository;
 import com.twitter.repository.PostJpaRepository;
 import com.twitter.repository.UserJpaRepository;
+import com.twitter.utils.Userİnfo;
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -37,23 +40,19 @@ public class PostServiceImpl implements PostService{
 	HashTagsRepository hashTagsRepository;
 	
 	PostConverter postConverter;
+	
+	Userİnfo userİnfo;
 
 
 	public PostServiceImpl(UserJpaRepository userJpaRepository, FriendsService friendsService,
-			PostJpaRepository postJpaRepository,HashTagsRepository hashTagsRepository,PostConverter postConverter) {
+			PostJpaRepository postJpaRepository,HashTagsRepository hashTagsRepository,PostConverter postConverter,Userİnfo userİnfo) {
 		super();
 		this.userJpaRepository = userJpaRepository;
 		this.friendsService = friendsService;
 		this.postJpaRepository = postJpaRepository;
 		this.postConverter = postConverter;
 		this.hashTagsRepository = hashTagsRepository;
-	}
-
-	@Override
-	public User getUserİnfo() {
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		User user = userJpaRepository.findByUsername(username);
-		return user;
+		this.userİnfo = userİnfo;
 	}
 
 	@Override
@@ -92,33 +91,20 @@ public class PostServiceImpl implements PostService{
 
 	@Override
 	public List<Post> getAuthPosts() {
-		return postJpaRepository.findByUser(getUserİnfo());
+		return postJpaRepository.findByUser(userİnfo.Auth());
 	}
 
 	@Override
 	public Page<Post> getFriendsPost(Pageable page) throws IOException{
-		List<User> userList = friendsService.getFriends();
-		List<Post> posts = new ArrayList();
-		for(int i = 0;i<userList.size();i++) {
-			List<Post> poste = new ArrayList();
-			
-			poste = postJpaRepository.findByUser(userList.get(i));
-			
-			for(int l = 0;l<poste.size();l++) {
-				posts.add(poste.get(l));
-			}
-		}
-		posts.sort(Comparator.comparing(Post::getId));
-		Collections.reverse(posts);
-		final int start = (int)page.getOffset();
-		final int end = Math.min((start + page.getPageSize()), posts.size());
-		Page<Post> pages = new PageImpl<Post>(posts.subList(start, end), page, posts.size());
+		List<Long> userList = friendsService.getLongFriends();
+		List<Post> post = postJpaRepository.findByUserId(userList,page);
+		Page<Post> pages = new PageImpl<Post>(post.subList(0, post.size()), page, post.size());
 		return pages;
 	}
 
 	@Override
 	public Post deletePost(long id) {
-		User user = getUserİnfo();
+		User user = userİnfo.Auth();
 		Post post = postJpaRepository.getById(id);
 		if(post.getUser() == user) {
 			postJpaRepository.delete(post);
