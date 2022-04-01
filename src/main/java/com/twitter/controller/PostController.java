@@ -32,6 +32,7 @@ public class PostController {
 		return postService.getUserPosts(username);
 	}
 	
+	@Cacheable("getUserPosts")
 	@GetMapping
 	private List<Post> getAuthPost() {
 		return postService.getAuthPosts();
@@ -45,6 +46,8 @@ public class PostController {
 	public Post deletePost(@PathVariable long id) {
 		return postService.deletePost(id);
 	}
+	
+	@Cacheable("getUserPosts")
 	@GetMapping("/friends")
 	public Page<Post> getFriendsPost(Pageable page) throws IOException {
 		return postService.getFriendsPost(page);
