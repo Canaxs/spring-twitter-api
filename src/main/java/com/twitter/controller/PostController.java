@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,28 +27,30 @@ public class PostController {
 	@Autowired
 	PostService postService;
 	
-	@Cacheable("getUserPosts")
+	@Cacheable(value = "getUserPosts")
 	@GetMapping("/{username}")
 	public List<Post> getUserPosts(@PathVariable String username) {
 		return postService.getUserPosts(username);
 	}
 	
-	@Cacheable("getUserPosts")
+	@Cacheable(value = "getAuthPost")
 	@GetMapping
 	private List<Post> getAuthPost() {
 		return postService.getAuthPosts();
 	}
 	
 	@PostMapping
+	@CacheEvict(value = "getAuthPost")
 	public Post createPost(@RequestBody Postİnformation postİnformation) {
 		return postService.createPost(postİnformation);
 	}
 	@DeleteMapping("/{id}")
+	@CacheEvict(value = "getAuthPost")
 	public Post deletePost(@PathVariable long id) {
 		return postService.deletePost(id);
 	}
 	
-	@Cacheable("getUserPosts")
+	@Cacheable(value = "getFriendsPost")
 	@GetMapping("/friends")
 	public Page<Post> getFriendsPost(Pageable page) throws IOException {
 		return postService.getFriendsPost(page);
