@@ -27,30 +27,27 @@ public class PostController {
 	@Autowired
 	PostService postService;
 	
-	@Cacheable(value = "getUserPosts")
 	@GetMapping("/{username}")
 	public List<Post> getUserPosts(@PathVariable String username) {
 		return postService.getUserPosts(username);
 	}
 	
-	@Cacheable(value = "getAuthPost")
+	@Cacheable("getAuthPost")
 	@GetMapping
 	private List<Post> getAuthPost() {
 		return postService.getAuthPosts();
 	}
 	
 	@PostMapping
-	@CacheEvict(value = "getAuthPost")
 	public Post createPost(@RequestBody Postİnformation postİnformation) {
 		return postService.createPost(postİnformation);
 	}
+	
 	@DeleteMapping("/{id}")
-	@CacheEvict(value = "getAuthPost")
 	public Post deletePost(@PathVariable long id) {
 		return postService.deletePost(id);
 	}
 	
-	@Cacheable(value = "getFriendsPost")
 	@GetMapping("/friends")
 	public Page<Post> getFriendsPost(Pageable page) throws IOException {
 		return postService.getFriendsPost(page);

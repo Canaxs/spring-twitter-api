@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.twitter.dto.Credentials;
 import com.twitter.dto.UserAuthRes;
+import com.twitter.dto.UserVM;
 import com.twitter.model.Token;
 import com.twitter.model.User;
 import com.twitter.repository.TokenRepository;
@@ -41,11 +42,13 @@ public class TwitterUnitAuthTests {
 		credentials.setUsername("user");
 		User user = mock(User.class);
 		Token token = mock(Token.class);
-		
-		Mockito.when(user.getId()).thenReturn(1L);
-		Mockito.when(userJpaRepository.save(ArgumentMatchers.any(User.class))).thenReturn(user);
-		
+		UserVM uservm = mock(UserVM.class);
+
+		Mockito.when(user.getPassword()).thenReturn(credentials.getPassword());
+		Mockito.when(userJpaRepository.findByUsername(credentials.getUsername())).thenReturn(user);
+		Mockito.when(tokenRepository.save(ArgumentMatchers.any(Token.class))).thenReturn(token);
 		UserAuthRes authRes = authService.authenticate(credentials);
+
 		Assertions.assertEquals(authRes.getUser().getUsername(), credentials.getUsername());
 	}
 }
